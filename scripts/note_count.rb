@@ -3,12 +3,11 @@
 # Goes through everything in ../midi/*.mid and counts notes per file/total
 require 'midilib/sequence'
 
-# Read from MIDI file
-seq = MIDI::Sequence.new()
-
 total_count = 0
 
 Dir["../midi/*.mid"].each do |file|
+  seq = MIDI::Sequence.new()
+  
   file_count = 0
   puts file.split('/').last
   
@@ -19,13 +18,13 @@ Dir["../midi/*.mid"].each do |file|
   seq.each do |track|
     track.each do |e|
       if e.is_a? MIDI::NoteOn
-        total_count++
-        file_count++
+        file_count += 1
       end
     end
   end
   puts "  #{file_count} notes"
+  total_count += file_count
 end
 
-puts "-" * 20
+puts "-" * 25
 puts "#{total_count} notes in total"
